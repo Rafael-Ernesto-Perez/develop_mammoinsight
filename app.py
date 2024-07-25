@@ -42,7 +42,7 @@ def modelo_gail(edad, edad_menarca, edad_primer_parto, num_familiares_cancer, nu
 
 # Definir la función del modelo de Gail en Streamlit
 def modelo_gail_streamlit():
-    #st.title(" IQUIBA-NEA Modelo de Riesgo de Cáncer de Mama - Gail")
+    #st.title(" IQUIBA-NEA Modelo de miesgo de cáncer de mama - Gail")
     logo_url = "logo_iquibanea.png"
     cols = st.columns([1, 8])
     with cols[0]:
@@ -52,7 +52,7 @@ def modelo_gail_streamlit():
 
     edad = st.slider("Edad", 35, 85, 50)
     raza = st.selectbox("Raza/Etnia", ["Blanca", "Afroamericana", "Hispana/Latina", "Asiática", "Nativa Americana"])
-    edad_menarca = st.selectbox("Edad de la primera menstruación", [str(i) for i in range(7, 17)])
+    edad_menarca = st.selectbox("Edad menarca", [str(i) for i in range(7, 17)])
     edad_primer_parto = st.selectbox("Edad al primer parto a término", ["Nunca", "<20", "20-24", "25-29", "30 o más"])
     num_familiares_cancer = st.selectbox("Número de familiares de primer grado con cáncer de mama", [str(i) for i in range(0, 11)])
     num_biopsias = st.selectbox("Número de biopsias de mama previas", [str(i) for i in range(0, 11)])
