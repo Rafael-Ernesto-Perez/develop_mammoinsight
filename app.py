@@ -1,69 +1,145 @@
 
+# Importar las librerías necesarias
 import streamlit as st
+import pandas as pd
 import numpy as np
+import calculos_riesgo as cr  # Importa tu módulo con las funciones principales
+from calcular_riesgo_ajustado import calcular_riesgo_ajustado
+from interpretar_riesgo import interpretar_riesgo
 
-# Coeficientes del modelo de Gail (simplificados para este ejemplo)
-coef = {
-    "edad": 0.1,
-    "edad_menarca": 0.05,
-    "edad_primer_parto": 0.07,
-    "num_familiares_cancer": 0.15,
-    "num_biopsias": 0.1,
-    "hiperplasia": 0.2,
-    "raza": {
-        "Blanca": 1.0,
-        "Afroamericana": 0.9,
-        "Hispana/Latina": 0.8,
-        "Asiática": 0.7,
-        "Nativa Americana": 0.6
+# Función para cargar el contenido de un archivo
+def cargar_contenido(archivo):
+    with open(archivo, 'r', encoding='utf-8') as file:
+        contenido = file.read()
+    return contenido
+
+# Configuración de Streamlit
+st.set_page_config(
+    page_title='Calculadora de Riesgo de Cáncer de Mama',
+    page_icon=':ribbon:',  # Emoji de lazo rosa
+    layout='centered',  # Centra el contenido
+    initial_sidebar_state='expanded'
+)
+
+# Estilos CSS personalizados
+st.markdown(
+    '''
+    <style>
+    .stApp {
+        background-color: #ffffff;
+        color: #333333;
     }
-}
+    h1, h2, h3, h4 {
+        color: #FF69B4;
+    }
+    .stButton button {
+        background-color: #f08080;
+        color: white;
+    }
+    .stNumberInput > label, .stSelectbox > label, .stRadio > label {
+        font-weight: bold;
+        color: #333333 !important;
+    }
+    /* Ajuste para los textos de los botones de radio */
+    .stRadio > label {
+        color: #FF69B4 !important;
+    }
+    .stRadio div {
+        color: #333333 !important;
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 
-# Mapeo de rangos de edad al primer parto a valores numéricos
-edad_primer_parto_map = {
-    "Nunca": 0,
-    "<20": 18,
-    "20-24": 22,
-    "25-29": 27,
-    "30 o más": 32
-}
+# Agregar el logo
+# Título y logo
+# Agregar el logo centrado
+logo_path = "logo_iquibanea.png"
+#st.image(logo_path, width=300)
+# Agregar CSS global para centrar las imágenes
+st.markdown(
+    '''
+    <style>
+    .stImage {
+        display: flex;
+        justify-content: center;
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 
-# Función para calcular el riesgo
-def modelo_gail(edad, edad_menarca, edad_primer_parto, num_familiares_cancer, num_biopsias, hiperplasia, raza):
-    edad_primer_parto_valor = edad_primer_parto_map[edad_primer_parto]
-    riesgo = (coef["edad"] * edad +
-              coef["edad_menarca"] * edad_menarca +
-              coef["edad_primer_parto"] * edad_primer_parto_valor +
-              coef["num_familiares_cancer"] * num_familiares_cancer +
-              coef["num_biopsias"] * num_biopsias +
-              coef["hiperplasia"] * hiperplasia +
-              coef["raza"][raza])
-    return riesgo
+# Mostrar la imagen centrada
+st.image(logo_path, width=300)
 
-# Definir la función del modelo de Gail en Streamlit
-def modelo_gail_streamlit():
-    #st.title(" IQUIBA-NEA Modelo de miesgo de cáncer de mama - Gail")
-    logo_url = "logo_iquibanea.png"
-    cols = st.columns([1, 8])
-    with cols[0]:
-        st.image(logo_url, width=300)
-    with cols[1]:
-        st.write("<div style='display: flex; align-items: center;'><h1 style='margin: 0; padding-left: 230px;'>IQUIBA-NEA Modelo de Riesgo de Cáncer de Mama - Gail</h1></div>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #FF69B4;'>IQUIBA-NEA Modelo de Riesgo de Cáncer de Mama - Gail</h1>", unsafe_allow_html=True)
 
-    edad = st.slider("Edad", 35, 85, 50)
-    raza = st.selectbox("Raza/Etnia", ["Blanca", "Afroamericana", "Hispana/Latina", "Asiática", "Nativa Americana"])
-    edad_menarca = st.selectbox("Edad menarca", [str(i) for i in range(7, 17)])
-    edad_primer_parto = st.selectbox("Edad al primer parto a término", ["Nunca", "<20", "20-24", "25-29", "30 o más"])
-    num_familiares_cancer = st.selectbox("Número de familiares de primer grado con cáncer de mama", [str(i) for i in range(0, 11)])
-    num_biopsias = st.selectbox("Número de biopsias de mama previas", [str(i) for i in range(0, 11)])
-    hiperplasia = st.radio("Historia de hiperplasia atípica en biopsias previas", ["No", "Sí"])
-    hiperplasia_val = 1 if hiperplasia == "Sí" else 0
+# Ruta de archivos CSV (actualiza las rutas según la ubicación en tu sistema)
+file_path = 'export/BrCa_lambda1.csv'
+file_path2 = 'export/BrCa_lambda2.csv'
+file_path3 = 'export/BrCa_1_AR.csv'
+file_path4 = 'export/BrCa_beta.csv'
 
-    if st.button("Calcular Riesgo"):
-        riesgo = modelo_gail(int(edad), int(edad_menarca), edad_primer_parto, int(num_familiares_cancer), int(num_biopsias), hiperplasia_val, raza)
-        st.write(f"El riesgo calculado de cáncer de mama es: {riesgo:.2f}")
+# Sección de datos del paciente
+st.header('Datos del Paciente')
 
-# Ejecutar la aplicación Streamlit
-if __name__ == "__main__":
-    modelo_gail_streamlit()
-    
+age_current = st.number_input('Edad actual del paciente', min_value=20, max_value=89, value=50)
+num_biopsies = st.number_input('Número de biopsias mamarias', min_value=0, max_value=99, value=0)
+hyperplasia = st.selectbox('Hiperplasia atípica en biopsias', options=[99, 0, 1], format_func=lambda x: 'Desconocido' if x == 99 else 'No' if x == 0 else 'Sí')
+age_men = st.number_input('Edad al primer período menstrual', min_value=0, max_value=age_current, value=12)
+age_first_child = st.number_input('Edad al primer parto', min_value=0, max_value=age_current, value=19)
+num_relatives = st.number_input('Número de parientes de primer grado con cáncer de mama', min_value=0, max_value=99, value=0)
+race = st.selectbox('Raza/Etnicidad', options=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], format_func=lambda x: {
+    1: "Blanca", 2: "Afroamericana", 3: "Hispana (Nacida en USA)", 4: "Nativo Americano", 5: "Hispana (Nacida fuera de USA)",
+    6: "China", 7: "Japonesa", 8: "Filipina", 9: "Hawaiana", 10: "Islas del Pacífico", 11: "Otra Asiática"
+}[x])
+
+# Calcular la edad futura automáticamente sumando 5 años a la edad actual
+age_projection = age_current + 5
+
+# Preparar los datos del paciente
+data = pd.DataFrame({
+    'T1': [age_current],
+    'T2': [age_projection],
+    'N_Biop': [num_biopsies],
+    'HypPlas': [hyperplasia],
+    'AgeMen': [age_men],
+    'Age1st': [age_first_child],
+    'N_Rels': [num_relatives],
+    'Race': [race]
+})
+
+# Corregir datos si es necesario
+data = cr.corregir_datos(data)
+
+# Ajuste basado en historia familiar antes de calcular el riesgo
+family_history = st.radio("¿Tiene familiares de primer o segundo grado con cáncer de mama?", ['Ninguno', 'Primer grado', 'Segundo grado'])
+
+if family_history != 'Ninguno':
+    age_at_diagnosis = st.number_input('Edad al diagnóstico del familiar más cercano', min_value=0, max_value=age_current, value=45)
+    ajustar_riesgo = True
+else:
+    ajustar_riesgo = False
+
+# Calcular riesgos solo después de recopilar la historia familiar
+if st.button('Calcular Riesgo'):
+    risk_5_year = cr.absolute_riskreal(file_path, file_path2, file_path3, file_path4, data.assign(T2=age_projection))
+    risk_lifetime = cr.absolute_riskreal(file_path, file_path2, file_path3, file_path4, data.assign(T2=90))
+
+    st.subheader('Resultados del Riesgo')
+    st.write(f'Riesgo a 5 años: {risk_5_year[0]:.2f}%')
+    st.write(f'Riesgo de por vida: {risk_lifetime[0]:.2f}%')
+
+    if ajustar_riesgo:
+        adjusted_risk = calcular_riesgo_ajustado(risk_lifetime[0], family_history.lower(), age_at_diagnosis)
+        categoria, mensaje = interpretar_riesgo(adjusted_risk)
+        st.write(f'Riesgo ajustado: {adjusted_risk:.2f}% - {categoria}')
+        st.write(mensaje)
+    else:
+        st.write('Sin ajuste de riesgo adicional basado en historia familiar.')
+    # Mostrar el contenido del archivo
+    contenido = cargar_contenido('informacion_gail.txt')
+    st.markdown(f'<div style="background-color: #ffffff; color: #000000; padding: 10px; border: 1px solid #d3d3d3; border-radius: 5px;">{contenido}</div>', unsafe_allow_html=True)
+
+

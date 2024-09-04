@@ -1,0 +1,73 @@
+write.csv(BrCa_lambda1, "C:/Users/android-1f3h1c3j1/Downloads/MAMMOINSIGTH/modelos de riesgo/nsa/nsa/BCRA_2.1.2/BCRA/data/export/BrCa_lambda1.csv", row.names = FALSE)
+
+
+# Cargar el archivo .rda
+load("C:/Users/android-1f3h1c3j1/Downloads/MAMMOINSIGTH/modelos de riesgo/nsa/nsa/BCRA_2.1.2/BCRA/data/BrCa_lambda1.rda")
+
+# Verificar el nombre del objeto cargado
+ls()
+
+# Supongamos que el objeto cargado se llama BrCa_lambda1
+# Exportar el objeto a un archivo CSV
+write.csv(BrCa_lambda1, "C:/ruta/destino/BrCa_lambda1.csv", row.names = FALSE)
+
+
+----
+Reemplacemos 
+
+
+""""
+El archivo que has proporcionado contiene un conjunto de datos que parece representar tasas de incidencia (o algo similar) para diferentes grupos raciales en intervalos de edad específicos. A continuación, te explico cómo podrías integrar esta información en tu código para evitar el uso de datos "hardcoded".
+
+### Estructura de los Datos
+
+1. **Columnas**: 
+   - Cada columna parece representar un grupo racial/étnico en un periodo de tiempo específico. Por ejemplo, `Wh.1983_87`, `AA.1994_98`, etc.
+   - Hay un total de 12 columnas, cada una para un grupo racial/étnico diferente.
+
+2. **Filas**: 
+   - Cada fila representa un intervalo de edad, por ejemplo `[20,25)`, `[25,30)`, etc.
+   - Las tasas correspondientes a cada grupo para ese intervalo de edad están listadas en las columnas correspondientes.
+
+### Índices y Columnas
+
+- **Índices**: Las filas parecen estar indexadas por intervalos de edad, lo que indica que cada fila corresponde a una tasa para ese rango de edad.
+- **Columnas**: Las columnas corresponden a diferentes grupos raciales/étnicos en períodos de tiempo específicos.
+
+### Idea de Integración en el Código
+
+Podrías cargar estos datos en tu código de la siguiente manera:
+
+1. **Carga del Archivo CSV**:
+   - Utiliza `pandas` para cargar el archivo CSV en un DataFrame:
+     ```python
+     import pandas as pd
+     
+     df = pd.read_csv('ruta/a/tu/archivo/BrCa_lambda1.csv')
+     ```
+
+2. **Acceso Dinámico a los Datos**:
+   - En lugar de utilizar datos hardcoded, puedes acceder a las tasas de incidencia según el grupo racial y el intervalo de edad deseado.
+   - Por ejemplo, para obtener las tasas para el grupo `Wh.1983_87` en el intervalo `[20,25)`:
+     ```python
+     tasa_wh_20_25 = df.loc[df['IntervaloEdad'] == '[20,25)', 'Wh.1983_87'].values[0]
+     ```
+     - Aquí, `IntervaloEdad` sería una columna que defines al leer el CSV si aún no existe.
+
+3. **Integración en Funciones**:
+   - En lugar de listas predefinidas, puedes crear funciones que tomen como entrada el grupo racial y el intervalo de edad, y devuelvan la tasa correspondiente:
+     ```python
+     def obtener_tasa(grupo_racial, intervalo_edad):
+         return df.loc[df['IntervaloEdad'] == intervalo_edad, grupo_racial].values[0]
+     ```
+
+4. **Uso en el Cálculo de Riesgos**:
+   - Al calcular riesgos, puedes reemplazar el acceso a los datos hardcoded por llamadas a la función `obtener_tasa`, utilizando los valores adecuados de grupo racial y edad.
+
+### Resumen
+
+- **Carga dinámica**: Los datos se cargan dinámicamente desde el archivo CSV.
+- **Acceso flexible**: Puedes acceder a cualquier tasa específica según el grupo racial y el intervalo de edad.
+- **Mantenimiento reducido**: No necesitas cambiar el código cuando los datos cambian; solo actualizas el CSV.
+
+Esto permite un código más flexible y fácil de mantener, donde los datos no están hardcoded sino que se cargan y manejan de forma dinámica según la necesidad.""
