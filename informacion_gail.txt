@@ -9,19 +9,3 @@ El modelo original fue implementado en **R** y se utiliza en la herramienta BCRA
 
 La migración se realizó asegurando que la implementación en Python reproduzca fielmente los cálculos y resultados del modelo original en R. Esta versión de Python también incorpora mejoras, como la inclusión del modelo específico para poblaciones hispanas basado en el **Estudio del Cáncer de Mama del Área de la Bahía de San Francisco (SFBCS)**.
 
-### ⚙️ Parámetros Utilizados
-
-El modelo calcula el riesgo basándose en los siguientes parámetros de entrada:
-
-- **Edad (T1, T2):** Edad actual del paciente y edad proyectada a futuro (por ejemplo, 5 años después).
-- **Número de biopsias (N_Biop):** Cantidad de biopsias mamarias realizadas.
-- **Hiperplasia atípica (HypPlas):** Presencia de hiperplasia atípica en las biopsias (1 para sí, 0 para no).
-- **Edad al primer período menstrual (AgeMen):** Edad en la que la paciente tuvo su primera menstruación.
-- **Edad al primer parto (Age1st):** Edad en la que la paciente tuvo su primer hijo.
-- **Número de parientes de primer grado con cáncer de mama (N_Rels):** Número de familiares cercanos (madre, hermanas, hijas) con antecedentes de cáncer de mama.
-- **Raza/Etnicidad (Race):** Raza de la paciente, que puede influir en el riesgo debido a diferencias epidemiológicas.
-
-### 🔍 Cálculos Realizados
-
-- **Riesgo Relativo (Relative Risk):** Calcula la probabilidad relativa de desarrollar cáncer de mama basado en los factores de riesgo proporcionados.
-- **Riesgo Absoluto (Absolute Risk):** Calcula la probabilidad absoluta de desarrollar cáncer de mama en un intervalo de tiempo específico (por ejemplo, 5 años) o durante toda la vida.
