@@ -10,7 +10,7 @@ from interpretar_riesgo import interpretar_riesgo
 # Función para cargar el contenido de un archivo
 def cargar_contenido(archivo):
     with open(archivo, 'r', encoding='utf-8') as file:
-        contenido = file.read()
+        contenido = file.read().strip()  # Usar .strip() para eliminar espacios en blanco o nuevas líneas
     return contenido
 
 # Configuración de Streamlit
@@ -138,8 +138,21 @@ if st.button('Calcular Riesgo'):
         st.write(mensaje)
     else:
         st.write('Sin ajuste de riesgo adicional basado en historia familiar.')
-    # Mostrar el contenido del archivo
-    contenido = cargar_contenido('informacion_gail.txt')
-    st.markdown(f'<div style="background-color: #ffffff; color: #000000; padding: 10px; border: 1px solid #d3d3d3; border-radius: 5px;">{contenido}</div>', unsafe_allow_html=True)
 
+    import html
+    # Mostrar el contenido del archivo con CSS aplicado para un tamaño de fuente específico
+    contenido = cargar_contenido('informacion_gail.txt')
+
+    # Escapar caracteres especiales HTML para evitar interpretación
+    #contenido_escapado = html.escape(contenido)
+
+    # Usar st.markdown para mostrar el contenido con estilos CSS
+    st.markdown(
+        f'''
+        <div style="background-color: #ffffff; color: #000000; padding: 10px; border: 1px solid #d3d3d3; border-radius: 4px; font-size: 0.8em; line-height: 1.2;">
+            {contenido}
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
 

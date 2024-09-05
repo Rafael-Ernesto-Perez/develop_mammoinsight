@@ -1,11 +1,9 @@
 
-## 📊 Modelo de Riesgo de Cáncer de Mama basado en el Modelo de Gail
+<h4>Información del Modelo de Riesgo de Cáncer de Mama</h4>
+<p>Este proyecto implementa en Python el Modelo de Riesgo de Cáncer de Mama basado en el Modelo de Gail, originalmente desarrollado por el Dr. Mitchell Gail del National Cancer Institute. Este modelo calcula el riesgo individual de desarrollar cáncer de mama en un período específico, utilizando varios factores de riesgo. La implementación original del modelo estaba en R, utilizada en la herramienta BCRAT del NCI. La versión en Python fue migrada asegurando la precisión de los cálculos y resultados del modelo original, e incluye mejoras como un modelo específico para poblaciones hispanas basado en el Estudio del Cáncer de Mama del Área de la Bahía de San Francisco.</p>
+<p>Calculadora: <a href="https://bcrisktool.cancer.gov/calculator.html">https://bcrisktool.cancer.gov/calculator.html</a></p>
 
-Este proyecto es una implementación en Python del **Modelo de Riesgo de Cáncer de Mama** desarrollado originalmente por el Dr. Mitchell Gail en el **National Cancer Institute (NCI)**. El modelo de Gail es una herramienta ampliamente utilizada para calcular el riesgo individual de desarrollar cáncer de mama en un período de tiempo específico, basándose en varios factores de riesgo.
-
-### 📚 Origen y Migración
-
-El modelo original fue implementado en **R** y se utiliza en la herramienta BCRAT (Breast Cancer Risk Assessment Tool) disponible en [el sitio web del NCI](https://bcrisktool.cancer.gov/calculator.html). En este proyecto, hemos migrado la implementación a **Python** para permitir su uso en entornos de ciencia de datos y aplicaciones más amplias.
-
-La migración se realizó asegurando que la implementación en Python reproduzca fielmente los cálculos y resultados del modelo original en R. Esta versión de Python también incorpora mejoras, como la inclusión del modelo específico para poblaciones hispanas basado en el **Estudio del Cáncer de Mama del Área de la Bahía de San Francisco (SFBCS)**.
-
+<h4>Consenso Nacional Intersociedades sobre Alto Riesgo para Cáncer de Mama</h4>
+<p>El ajuste de riesgo para cáncer de mama incluye variables adicionales como la historia familiar de cáncer de mama, la edad de diagnóstico en familiares, y el tipo de tumor en familiares. La historia familiar de cáncer de mama, especialmente en familiares de primer grado, incrementa significativamente el riesgo. Un diagnóstico a edad temprana en la familia sugiere un riesgo mayor. Además, la presencia de tumores triple negativo o cáncer de ovario o próstata en la familia puede indicar un riesgo hereditario elevado, especialmente si están asociados con mutaciones BRCA1.</p>
+<p>Fuente: Consenso Nacional Intersociedades sobre Alto Riesgo para Cáncer de Mama<br>
+<a href="https://www.elsevier.es/es-revista-revista-argentina-radiologia-383-articulo-consenso-nacional-intersociedades-sobre-alto-S0048761916300758">https://www.elsevier.es/es-revista-revista-argentina-radiologia-383-articulo-consenso-nacional-intersociedades-sobre-alto-S0048761916300758</a></p>
