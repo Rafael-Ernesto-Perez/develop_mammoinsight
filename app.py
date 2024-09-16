@@ -72,7 +72,7 @@ st.markdown(
 logo_path = "logo_iquibanea.png"
 st.image(logo_path, width=300)
 
-st.markdown("<h1 style='text-align: center; color: #ff69b4;'>iquiba-nea modelo de riesgo de cáncer de mama - gail</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #ff69b4;'>IQUIBA-NEA modelo de riesgo de cáncer de mama - Gail</h1>", unsafe_allow_html=True)
 
 # Ruta de archivos CSV (actualiza las rutas según la ubicación en tu sistema)
 file_path = 'export/BrCa_lambda1.csv'
@@ -93,7 +93,7 @@ if st.sidebar.button("Información"):
 
 # Mostrar contenido de la opción seleccionada
 if opcion == "Cálculo de Riesgo":
-    st.header('Datos del Paciente')
+    st.header('Datos del paciente')
 
     # Línea horizontal con texto en el medio
     st.markdown(
@@ -163,7 +163,7 @@ if opcion == "Cálculo de Riesgo":
         risk_5_year = cr.absolute_riskreal(file_path, file_path2, file_path3, file_path4, data.assign(t2=age_projection))
         risk_lifetime = cr.absolute_riskreal(file_path, file_path2, file_path3, file_path4, data.assign(t2=90))
 
-        st.subheader('Resultados del Riesgo')
+        st.subheader('Resultados del riesgo')
         #st.write(f'Riesgo a 5 años: {risk_5_year[0]:.2f}%')
         #st.write(f'Riesgo de por vida: {risk_lifetime[0]:.2f}%')
 
